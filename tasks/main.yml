@@ -13,7 +13,6 @@
     mode: 0644
 
 - name: start lancache (w/ docker-compose)
-  any_errors_fatal: true
   community.docker.docker_compose:
     project_src: "{{ lancache_dir }}"
     remove_orphans: yes
