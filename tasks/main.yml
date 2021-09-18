@@ -2,17 +2,17 @@
 - name: clone lancache git repo
   ansible.builtin.git:
     repo: "https://github.com/lancachenet/docker-compose"
-    dest: "{{ lancache_dir }}"
+    dest: "{{ lancache_git_dir }}"
     version: master
     update: no
 
 - name: configure env file
   ansible.builtin.template:
     src: templates/.env.j2
-    dest: "{{ lancache_dir }}/.env"
+    dest: "{{ lancache_git_dir }}/.env"
     mode: 0644
 
 - name: start lancache (w/ docker-compose)
   community.docker.docker_compose:
-    project_src: "{{ lancache_dir }}"
+    project_src: "{{ lancache_git_dir }}"
     remove_orphans: yes
