@@ -15,4 +15,6 @@
 - name: start lancache (w/ docker-compose)
   community.docker.docker_compose:
     project_src: "{{ lancache_git_dir }}"
+    pull: true
     remove_orphans: true
+    state: present
