@@ -8,4 +8,3 @@ cache_disk_size: 1000000m
 cache_mem_size: 500m
 cache_max_age: 3650d
 timezone: Europe/London
-
