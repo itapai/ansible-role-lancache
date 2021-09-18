@@ -4,7 +4,7 @@
     repo: "https://github.com/lancachenet/docker-compose"
     dest: "{{ lancache_git_dir }}"
     version: master
-    update: no
+    update: false
 
 - name: configure env file
   ansible.builtin.template:
@@ -15,4 +15,4 @@
 - name: start lancache (w/ docker-compose)
   community.docker.docker_compose:
     project_src: "{{ lancache_git_dir }}"
-    remove_orphans: yes
+    remove_orphans: true

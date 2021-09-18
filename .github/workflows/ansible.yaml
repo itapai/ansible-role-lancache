@@ -1,11 +1,11 @@
 ---
-name: GitHub Action
+name: ansible galaxy 
 
 on:
   - push
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: checkout

@@ -1,6 +1,7 @@
+---
 galaxy_info:
   author: itapai
-  description: lancache server 
+  description: lancache server
   role_name: lancache
 
   license: MIT
