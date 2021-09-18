@@ -1,0 +1,11 @@
+---
+lancache_dir: /opt/lancache
+lancache_ip: 10.0.39.1
+dns_bind_ip: 10.0.39.1
+upstream_dns: 8.8.8.8
+cache_root: ./lancache
+cache_disk_size: 1000000m
+cache_mem_size: 500m
+cache_max_age: 3650d
+timezone: Europe/London
+
