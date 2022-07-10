@@ -1,12 +1,13 @@
-lancache
+Ansible Role: Lancache
 =========
 
-Install lancache with docker-compose.
+Ansible Role that installs [Lancache](https://lancache.net/) using Docker.
 
 Requirements
 ------------
 
 - git
+- docker
 - docker-compose
 
 Role Variables
@@ -26,7 +27,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - lancache
+         - itapai.lancache
 
 License
 -------
