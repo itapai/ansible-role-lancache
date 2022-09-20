@@ -1,6 +1,6 @@
 ---
-name: ansible galaxy 
 
+name: Release to Ansible Galaxy
 on:
   - push
 
@@ -10,7 +10,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+
       - name: galaxy
-        uses: robertdebock/galaxy-action@1.1.0
+        uses: robertdebock/galaxy-action@1.2.0
         with:
-          galaxy_api_key: ${{ secrets.galaxy_api_key }}
+          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
