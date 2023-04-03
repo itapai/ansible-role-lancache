@@ -1,15 +1,4 @@
 ---
-lancache_monolithic_env:
-  UPSTREAM_DNS: "8.8.8.8 8.8.4.4"
-  CACHE_DISK_SIZE: "1000000m"
-  CACHE_MEM_SIZE: "500m"
-  CACHE_MAX_AGE: "3650d"
-  TIMEZONE: "Europe/London"
-
-lancache_dns_env:
-  USE_GENERIC_CACHE: "true"
-  LANCACHE_IP: "{{ ansible_default_ipv4.address }}"
-
 ##########
 
 # IP addresses that the lancache monolithic instance is reachable on
@@ -18,10 +7,10 @@ lancache_dns_env:
 # performance for some services (e.g. Steam)
 # Note: This setting only affects DNS, monolithic and sniproxy will still bind
 # to all IPs by default
-lancache_ip: 10.0.39.1
+lancache_ip: "{{ ansible_default_ipv4.address }}"
 
 # DNS Resolution for forwarded DNS lookups
-lancache_upstream_dns: 1.1.1.1
+lancache_upstream_dns: "8.8.8.8 8.8.4.4"
 
 # Storage path for the cached data
 # Note that by default, this will be a folder relative to the
@@ -33,12 +22,12 @@ lancache_cache_root: ./lancache
 # The cache server will prune content on a least-recently-used basis if it
 # starts approaching this limit.
 # Set this to a little bit less than your actual available space
-lancache_cache_disk_size: 2000000m
+lancache_cache_disk_size: 1000G
 
 # Change this to allow sufficient index memory for the nginx
 # cache manager (default 500m)
 # We recommend 250m of index memory per 1TB of CACHE_DISK_SIZE
-lancache_cache_mem_size: 500m
+lancache_cache_mem_size: 500M
 
 # Change this to limit the maximum age of cached content (default 3650d)
 lancache_cache_max_age: 3650d

@@ -1,0 +1,12 @@
+---
+__lancache_env:
+  monolithic:
+    UPSTREAM_DNS: "{{ lancache_upstream_dns }}"
+    CACHE_DISK_SIZE: "{{ lancache_cache_disk_size }}"
+    CACHE_MEM_SIZE: "{{ lancache_cache_mem_size }}"
+    CACHE_MAX_AGE: "{{ lancache_cache_max_age }}"
+    TIMEZONE: "{{ lancache_timezone }}"
+
+  dns:
+    USE_GENERIC_CACHE: "true"
+    LANCACHE_IP: "{{ lancache_ip }}"

@@ -6,13 +6,13 @@
     # pull: true
     container_default_behavior: no_defaults
     restart_policy: unless-stopped
-    env: "{{ lancache_monolithic_env }}"
+    env: "{{ __lancache_env.monolithic }}"
     ports:
       - 80:80/tcp
       - 443:443/tcp
     volumes:
-      - /mnt/lancache/cache:/data/cache
-      - /mnt/lancache/logs:/data/logs
+      - "{{ lancache_cache_root }}/cache:/data/cache"
+      - "{{ lancache_cache_root }}/logs:/data/logs"
 
 - name: Create lancache-dns container
   community.docker.docker_container:
@@ -21,7 +21,7 @@
     # pull: true
     container_default_behavior: no_defaults
     restart_policy: unless-stopped
-    env: "{{ lancache_dns_env }}"
+    env: "{{ __lancache_env.dns }}"
     ports:
       - 53:53/udp
       - 53:53/tcp
