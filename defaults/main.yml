@@ -1,38 +1,30 @@
 ---
-##########
-
-# IP addresses that the lancache monolithic instance is reachable on
 # Specify one or more IPs, space separated - these will be used when resolving
-# DNS hostnames through lancachenet-dns. Multiple IPs can improve cache priming
-# performance for some services (e.g. Steam)
+# DNS hostnames through lancache-dns
 # Note: This setting only affects DNS, monolithic and sniproxy will still bind
 # to all IPs by default
 lancache_ip: "{{ ansible_default_ipv4.address }}"
 
-# DNS Resolution for forwarded DNS lookups
+# DNS resolution for forwarded DNS lookups
 lancache_upstream_dns: "8.8.8.8 8.8.4.4"
 
 # Storage path for the cached data
-# Note that by default, this will be a folder relative to the
-# docker-compose.yml file
-lancache_cache_root: ./lancache
+lancache_cache_root: ~/lancache
 
-# Change this to customise the size of the disk cache (default 2000000m)
-# If you have more storage, you'll likely want to increase this
+# Change this to customise the size of the disk cache
 # The cache server will prune content on a least-recently-used basis if it
 # starts approaching this limit.
 # Set this to a little bit less than your actual available space
 lancache_cache_disk_size: 1000G
 
-# Change this to allow sufficient index memory for the nginx
-# cache manager (default 500m)
-# We recommend 250m of index memory per 1TB of CACHE_DISK_SIZE
-lancache_cache_mem_size: 500M
+# Change this to allow sufficient index memory for the nginx cache
+# manager (default 500M)
+# We recommend 250M of index memory per 1TB of CACHE_DISK_SIZE
+lancache_cache_mem_size: 250M
 
 # Change this to limit the maximum age of cached content (default 3650d)
 lancache_cache_max_age: 3650d
 
 # Set the timezone for the docker containers, useful for
 # correct timestamps on logs (default Europe/London)
-# Formatted as tz database names. Example: Europe/Oslo or America/Los_Angeles
 lancache_timezone: Europe/London
