@@ -1,10 +1,11 @@
 # Ansible Role: Lancache
 
-Ansible Role that installs [Lancache](https://lancache.net) using Docker.
+Install [Lancache](https://lancache.net) using Docker.
 
 ## Requirements
 
-- docker
+The only real dependency for this role is [docker](https://community.docker.com/).
+This role takes care of installing docker if it is not already installed.
 
 ## Role Variables
 
@@ -12,7 +13,9 @@ A description of the settable variables for this role should go here, including 
 
 ## Dependencies
 
-collection: community.docker
+- community.docker
+- geerlingguy.pip
+- geerlingguy.docker
 
 ## Example Playbook
 
