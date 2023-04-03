@@ -1,20 +1,27 @@
 ---
-- name: clone lancache git repo
-  ansible.builtin.git:
-    repo: "https://github.com/lancachenet/docker-compose"
-    dest: "{{ lancache_git_dir }}"
-    version: master
-    update: false
+- name: Create lancache-monolithic container
+  community.docker.docker_container:
+    name: lancache-monolithic
+    image: lancachenet/monolithic:latest
+    # pull: true
+    container_default_behavior: no_defaults
+    restart_policy: unless-stopped
+    env: "{{ lancache_monolithic_env }}"
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    volumes:
+      - /mnt/lancache/cache:/data/cache
+      - /mnt/lancache/logs:/data/logs
 
-- name: configure env file
-  ansible.builtin.template:
-    src: templates/.env.j2
-    dest: "{{ lancache_git_dir }}/.env"
-    mode: 0644
-
-- name: start lancache (w/ docker-compose)
-  community.docker.docker_compose:
-    project_src: "{{ lancache_git_dir }}"
-    pull: true
-    remove_orphans: true
-    state: present
+- name: Create lancache-dns container
+  community.docker.docker_container:
+    name: lancache-dns
+    image: lancachenet/lancache-dns:latest
+    # pull: true
+    container_default_behavior: no_defaults
+    restart_policy: unless-stopped
+    env: "{{ lancache_dns_env }}"
+    ports:
+      - 53:53/udp
+      - 53:53/tcp
