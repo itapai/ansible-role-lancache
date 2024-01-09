@@ -1,9 +1,18 @@
 ---
+lancache_compose_dir: "/opt/lancache"
+## Set this to true if you're using a load balancer, or set it to false if you're using seperate IPs for each service.
+## If you're using monolithic (the default), leave this set to true, if you are using multiple instances, 
+## set it to false and set the sliced and unsliced ip addresses.
+lancache_use_generic: "true"
+
 # Specify one or more IPs, space separated - these will be used when resolving
 # DNS hostnames through lancache-dns
 # Note: This setting only affects DNS, monolithic and sniproxy will still bind
 # to all IPs by default
-lancache_ip: "{{ ansible_default_ipv4.address }}"
+lancache_ip: "10.2.0.10"
+
+## IP address on the host that the DNS server should bind to
+lancache_dns_ip: "10.2.0.10"
 
 # DNS resolution for forwarded DNS lookups
 lancache_upstream_dns: "8.8.8.8 8.8.4.4"
@@ -20,11 +29,19 @@ lancache_cache_disk_size: 1000G
 # Change this to allow sufficient index memory for the nginx cache
 # manager (default 500M)
 # We recommend 250M of index memory per 1TB of CACHE_DISK_SIZE
-lancache_cache_mem_size: 250M
+lancache_cache_index_size: 250M
 
 # Change this to limit the maximum age of cached content (default 3650d)
 lancache_cache_max_age: 3650d
 
+# these are settings for the sliced container, if it's used
+lancache_sliceless_ip: "10.2.0.11"
+
+lancache_cache_sliceless_root: ~/sliceless-lancache
+lancache_cache_sliceless_disk_size: 1000G
+lancache_cache_sliceless_index_size: 250M
+lancache_cache_sliceless_max_age: 3650d
+
 # Set the timezone for the docker containers, useful for
 # correct timestamps on logs (default Europe/London)
-lancache_timezone: Europe/London
+lancache_tz: Europe/London

@@ -1,27 +1,26 @@
 ---
-- name: Create lancache-monolithic container
-  community.docker.docker_container:
-    name: lancache-monolithic
-    image: lancachenet/monolithic:latest
-    # pull: true
-    container_default_behavior: no_defaults
-    restart_policy: unless-stopped
-    env: "{{ __lancache_env.monolithic }}"
-    ports:
-      - 80:80/tcp
-      - 443:443/tcp
-    volumes:
-      - "{{ lancache_cache_root }}/cache:/data/cache"
-      - "{{ lancache_cache_root }}/logs:/data/logs"
-
-- name: Create lancache-dns container
-  community.docker.docker_container:
-    name: lancache-dns
-    image: lancachenet/lancache-dns:latest
-    # pull: true
-    container_default_behavior: no_defaults
-    restart_policy: unless-stopped
-    env: "{{ __lancache_env.dns }}"
-    ports:
-      - 53:53/udp
-      - 53:53/tcp
+- name: Create compose directory
+  ansible.builtin.file:
+    path: '{{ lancache_compose_dir }}'
+    state: directory
+    mode: 0775
+  become: true
+- name: Template docker-compose file
+  ansible.builtin.template:
+    src: templates/docker-compose.yaml.j2
+    mode: 0775
+    dest: '{{ lancache_compose_dir }}/docker-compose.yaml'
+  become: true
+- name: Copy update_containers file
+  ansible.builtin.copy:
+    src: templates/update_containers.sh
+    mode: 0775
+    dest: '{{ lancache_compose_dir }}/update_containers.sh'
+  become: true
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: '{{ lancache_compose_dir }}'
+  register: output
+- name: Show compose results
+  ansible.builtin.debug:
+    var: output
