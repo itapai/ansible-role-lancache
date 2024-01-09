@@ -1,0 +1,73 @@
+---
+version: "2.1"
+services:
+  lancache_monolithic:
+    image: lancachenet/monolithic:latest
+    container_name: lancache_monolithic
+    environment:
+      - CACHE_ROOT={{ lancache_cache_root }}
+      - CACHE_DISK_SIZE={{ lancache_cache_disk_size }}
+      - CACHE_INDEX_SIZE={{ lancache_cache_index_size }}
+      - CACHE_MAX_AGE={{ lancache_cache_max_age }}
+      - TZ={{ lancache_tz }}
+    volumes:
+      - {{ lancache_cache_root }}/cache:/data/cache
+      - {{ lancache_cache_root }}/logs:/data/logs
+    ports:
+      - {{ lancache_dns_ip }}:80:80/tcp
+      - {{ lancache_dns_ip }}:443:443/tcp
+    restart: unless-stopped
+  lancache_monolithic_sliceless:
+    image: lancachenet/monolithic:latest
+    container_name: lancache_monolithic_sliceless
+    environment:
+      - CACHE_SLICE_SIZE=0
+      - CACHE_ROOT={{ lancache_cache_sliceless_root }}
+      - CACHE_DISK_SIZE={{ lancache_cache_sliceless_disk_size }}
+      - CACHE_INDEX_SIZE={{ lancache_cache_sliceless_index_size }}
+      - CACHE_MAX_AGE={{ lancache_cache_sliceless_max_age }}
+      - TZ={{ lancache_tz }}
+    volumes:
+      - {{ lancache_cache_sliceless_root }}/cache:/data/cache
+      - {{ lancache_cache_sliceless_root }}/logs:/data/logs
+    ports:
+      - {{ lancache_sliceless_ip }}:80:80/tcp
+      - {{ lancache_sliceless_ip }}:443:443/tcp
+    restart: unless-stopped
+  lancache_dns:
+    image: lancachenet/lancache-dns:latest
+    container_name: lancache_dns
+    environment:
+      - USE_GENERIC_CACHE={{ lancache_use_generic }}
+      - LANCACHE_IP={{ lancache_use_generic | bool | ternary(lancache_ip, '') }}
+      - DNS_BIND_IP={{ lancache_dns_ip }}
+      - ARENANETCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - BLIZZARDCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - BSGCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - CITYOFHEROESCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - DAYBREAKCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - EPICGAMESCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - FRONTIERCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - NEXUSMODSCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - NEVERWINTERCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - NINTENDOCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - ORIGINCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - PATHOFEXILECACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - RENEGADEXCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - RIOTCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_sliceless_ip) }}
+      - ROCKSTARCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - SONYCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - SQUARECACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - STEAMCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - UPLAYCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - TESOCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - WARFRAMECACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - WARGAMINGCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - WSUSCACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - XBOXLIVECACHE_IP={{ lancache_use_generic | bool | ternary('', lancache_dns_ip) }}
+      - UPSTREAM_DNS={{ lancache_upstream_dns }}
+      - TZ={{ lancache_tz }}
+    ports:
+      - {{ lancache_dns_ip }}:53:53/udp
+      - {{ lancache_dns_ip }}:53:53/tcp
+    restart: unless-stopped
